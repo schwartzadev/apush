@@ -7,13 +7,20 @@ from nltk.corpus import stopwords
 from sklearn.metrics.pairwise import cosine_similarity
 import networkx as nx
 
+import get_sections_from_textbook
+
 prompt = 'impact of fugitive slaves in the civil war the life of black soldiers in the military'
 
-df = pd.read_csv("yawp.csv")
 
-sentences = []
-for s in df['text']:
-    sentences.append(sent_tokenize(s))
+# this is using the first section (section_number) from chapter five (chapter_url)
+chapter_url = "http://www.americanyawp.com/text/05-the-american-revolution/"
+section_number = 1 # one indexed
+
+sections = get_sections_from_textbook.get_chapter_sections(chapter_url)
+
+sentences = sections[section_number - 1]['content']
+
+sentences = [sent_tokenize(s) for s in sentences]
 
 sentences = [y for x in sentences for y in x] # flatten list
 
@@ -69,6 +76,7 @@ top = []
 for i in range(15):
     top.append(ranked_sentences[i][1])
 
+print(top)
 
 # create sentence vector for prompt
 promptVector = sum([word_embeddings.get(w, np.zeros((100,))) for w in prompt.split()])/(len(prompt.split())+0.001)
