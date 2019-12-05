@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 
 def get_chapter_sections(chapter_url):
-	data = requests.get('http://www.americanyawp.com/text/08-the-market-revolution/')
+	data = requests.get(chapter_url)
 	soup = BeautifulSoup(data.content, features="lxml")
 	entry_content = soup.find('div', {'class': 'entry-content'}) # get the main section
 
