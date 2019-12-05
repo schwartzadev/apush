@@ -76,7 +76,10 @@ top = []
 for i in range(15):
     top.append(ranked_sentences[i][1])
 
-print(top)
+
+print(sections[section_number - 1]['header'])
+[print('* ', sentence, '\n') for sentence in top]
+
 
 # create sentence vector for prompt
 promptVector = sum([word_embeddings.get(w, np.zeros((100,))) for w in prompt.split()])/(len(prompt.split())+0.001)
